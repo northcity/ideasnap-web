@@ -229,7 +229,7 @@ export default function Home() {
               <div><h3>{locale === "zh" ? recommended.zh : recommended.en}</h3><p>{locale === "zh" ? "查看官方安装包、版本与首次安装说明" : "Official package, version, and first-launch guidance"}</p></div>
             </div>
             <Link className="button download-button" href={`/download#${recommended.section}`}>{copy.downloadDetails} <ArrowIcon /></Link>
-            <small>{locale === "zh" ? "当前版本 1.0.30 · 支持全平台同步" : "Current version 1.0.30 · Cross-platform sync"}</small>
+            <small>{locale === "zh" ? "当前版本 1.0.34 · 支持全平台同步" : "Current version 1.0.34 · Cross-platform sync"}</small>
           </div>
         </div>
       </section>
