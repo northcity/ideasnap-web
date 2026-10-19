@@ -1,5 +1,16 @@
 (() => {
-  const API_BASE = window.SHANNIAN_API_BASE || 'https://waffo-webhook.chenxi19930623.workers.dev';
+  // ai.northcity.top is reachable from mainland China; *.workers.dev is not.
+  // Keep both: the first working base is reused for the rest of the page.
+  const API_CANDIDATES = (() => {
+    const configured = Array.isArray(window.SHANNIAN_API_BASES) ? window.SHANNIAN_API_BASES : [];
+    return [...new Set([
+      ...configured,
+      window.SHANNIAN_API_BASE,
+      'https://ai.northcity.top',
+      'https://waffo-webhook.chenxi19930623.workers.dev',
+    ].filter(Boolean))];
+  })();
+  let activeApiBase = API_CANDIDATES[0];
   const SESSION_KEY = 'shannian.web.session.v1';
   const PENDING_PAYMENT_KEY = 'shannian.web.pending-payment.v1';
   const state = { user: null, activePlanId: null, codeTimers: new Map() };
@@ -46,6 +57,7 @@
     storage.removeItem(SESSION_KEY);
     syncAccountUi();
   };
+  const UNAVAILABLE_STATUSES = new Set([404, 405, 501, 502, 503, 504]);
   const api = async (path, options = {}) => {
     const method = String(options.method || 'GET').toUpperCase();
     const headers = { ...(options.headers || {}) };
@@ -56,20 +68,39 @@
     const activeUser = state.user || getSession();
     if (options.auth !== false && activeUser?.sessionToken) headers.Authorization = `Bearer ${activeUser.sessionToken}`;
     const { auth: _auth, timeoutMs = 12000, ...fetchOptions } = options;
-    const controller = new AbortController();
-    const timer = window.setTimeout(() => controller.abort(), timeoutMs);
-    let response;
-    try {
-      response = await fetch(`${API_BASE}${path}`, { ...fetchOptions, method, headers, signal: controller.signal });
-    } catch (error) {
-      if (error?.name === 'AbortError') throw new Error(isEnglish() ? 'Request timed out' : '请求超时，请稍后重试');
-      throw error;
-    } finally {
-      window.clearTimeout(timer);
+    const bases = [activeApiBase, ...API_CANDIDATES.filter((base) => base !== activeApiBase)];
+    let lastError = null;
+    for (let index = 0; index < bases.length; index += 1) {
+      const base = bases[index];
+      const isLast = index === bases.length - 1;
+      const controller = new AbortController();
+      // A blocked workers.dev connection hangs until timeout; probe faster
+      // when another candidate is still available.
+      const timer = window.setTimeout(() => controller.abort(), isLast ? timeoutMs : Math.min(timeoutMs, 7000));
+      let response;
+      try {
+        response = await fetch(`${base}${path}`, { ...fetchOptions, method, headers, signal: controller.signal });
+      } catch (error) {
+        lastError = error;
+        // Never replay a non-idempotent request after a timeout: it may have
+        // reached the server (duplicate SMS code or checkout order).
+        if (error?.name === 'AbortError' && method !== 'GET' && method !== 'HEAD') break;
+        continue;
+      } finally {
+        window.clearTimeout(timer);
+      }
+      const unavailable = UNAVAILABLE_STATUSES.has(response.status);
+      if (unavailable && !isLast) continue;
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || !payload.ok) {
+        if (unavailable && !isLast) continue;
+        throw new Error(payload.error || '请求失败，请稍后重试');
+      }
+      activeApiBase = base;
+      return payload;
     }
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok || !payload.ok) throw new Error(payload.error || '请求失败，请稍后重试');
-    return payload;
+    if (lastError?.name === 'AbortError') throw new Error(isEnglish() ? 'Request timed out' : '请求超时，请稍后重试');
+    throw new Error(isEnglish() ? 'Network error. Check your connection and try again.' : '网络连接失败，请检查网络后重试');
   };
   const toast = (message, type = '') => {
     const node = document.querySelector('.commerce-toast');

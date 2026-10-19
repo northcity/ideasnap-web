@@ -71,14 +71,18 @@ export default function RootLayout({
       }
     })();
   `;
-  const apiBase = process.env.NEXT_PUBLIC_SHANNIAN_API_BASE || "https://waffo-webhook.chenxi19930623.workers.dev";
+  const apiBases = [
+    process.env.NEXT_PUBLIC_SHANNIAN_API_BASE,
+    "https://ai.northcity.top",
+    "https://waffo-webhook.chenxi19930623.workers.dev",
+  ].filter((value): value is string => Boolean(value));
 
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <Script id="shannian-api-config" strategy="beforeInteractive">
-          {`window.SHANNIAN_API_BASE=${JSON.stringify(apiBase)};`}
+          {`window.SHANNIAN_API_BASES=${JSON.stringify(apiBases)};window.SHANNIAN_API_BASE=${JSON.stringify(apiBases[0])};`}
         </Script>
       </head>
       <body>
