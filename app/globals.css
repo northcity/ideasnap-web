@@ -3912,3 +3912,89 @@ html[data-embed="1"] .playbook-page .section-heading h2 {
     justify-content: center;
   }
 }
+
+.download-detect-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.download-detect-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.download-detect-main .status-dot {
+  flex: 0 0 auto;
+}
+
+.download-detect-hint {
+  color: var(--muted);
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.download-platform-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.download-platform-chips li {
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.detail-inline-actions a.is-recommended {
+  border-color: var(--green);
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+.download-recommend-badge {
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+html[data-theme="dark"] .download-platform-chips li {
+  border-color: var(--line);
+  background: #15231b;
+  color: var(--muted);
+}
+
+html[data-theme="dark"] .detail-inline-actions a.is-recommended {
+  border-color: var(--green);
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+@media (max-width: 640px) {
+  .download-detect-note {
+    align-items: flex-start;
+  }
+
+  .download-platform-chips li {
+    font-size: 10px;
+  }
+}

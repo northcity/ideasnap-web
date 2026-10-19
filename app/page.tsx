@@ -4,6 +4,7 @@ import { useEffect, useState, type AnchorHTMLAttributes } from "react";
 import { homeCopy } from "./content";
 import CommercePricing from "./commerce-pricing";
 import { useSite } from "./site-context";
+import { resolveDownloadTarget, type DownloadTarget } from "./device-download";
 
 function Link({ href, ...props }: AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) {
   return <a href={href} {...props} />;
@@ -21,15 +22,16 @@ const platformData: Record<PlatformKey, { icon: string; zh: string; en: string; 
 
 const platformOrder: PlatformKey[] = ["ios", "android", "windows", "macos", "linux"];
 
-function detectPlatform(): PlatformKey {
-  const ua = navigator.userAgent.toLowerCase();
-  if (ua.includes("android")) return "android";
-  if (ua.includes("iphone") || ua.includes("ipad")) return "ios";
-  if (ua.includes("windows")) return "windows";
-  if (ua.includes("mac")) return "macos";
-  if (ua.includes("linux")) return "linux";
-  return "ios";
-}
+const targetFamily: Record<DownloadTarget["platform"], PlatformKey> = {
+  ios: "ios",
+  android: "android",
+  windows: "windows",
+  "macos-arm64": "macos",
+  "macos-x64": "macos",
+  macos: "macos",
+  linux: "linux",
+  unknown: "ios",
+};
 
 function ArrowIcon() {
   return (
@@ -50,14 +52,23 @@ function CheckIcon() {
 export default function Home() {
   const { locale } = useSite();
   const copy = homeCopy[locale];
-  const [platform, setPlatform] = useState<PlatformKey>("ios");
+  const [downloadTarget, setDownloadTarget] = useState<DownloadTarget | null>(null);
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => setPlatform(detectPlatform()));
-    return () => window.cancelAnimationFrame(frame);
+    let active = true;
+    resolveDownloadTarget().then((target) => {
+      if (active) setDownloadTarget(target);
+    });
+    return () => {
+      active = false;
+    };
   }, []);
 
-  const recommended = platformData[platform];
+  const detected = downloadTarget && downloadTarget.platform !== "unknown" ? downloadTarget : null;
+  const recommended = platformData[detected ? targetFamily[detected.platform] : "ios"];
+  const recommendedTitle = detected ? detected.device[locale] : (locale === "zh" ? recommended.zh : recommended.en);
+  const recommendedHref = detected ? detected.href : `/download#${recommended.section}`;
+  const recommendedExternal = recommendedHref.startsWith("http");
   const schema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -226,9 +237,21 @@ export default function Home() {
             <div className="recommended-tag"><span className="status-dot" />{locale === "zh" ? "为当前设备推荐" : "Recommended for this device"}</div>
             <div className="recommended-product">
               <img src={recommended.icon} alt="" width="52" height="52" />
-              <div><h3>{locale === "zh" ? recommended.zh : recommended.en}</h3><p>{locale === "zh" ? "查看官方安装包、版本与首次安装说明" : "Official package, version, and first-launch guidance"}</p></div>
+              <div>
+                <h3>{recommendedTitle}</h3>
+                <p>{detected
+                  ? (locale === "zh" ? "已按当前设备匹配官方安装包" : "Official package matched to this device")
+                  : (locale === "zh" ? "查看官方安装包、版本与首次安装说明" : "Official package, version, and first-launch guidance")}</p>
+              </div>
             </div>
-            <Link className="button download-button" href={`/download#${recommended.section}`}>{copy.downloadDetails} <ArrowIcon /></Link>
+            <Link
+              className="button download-button"
+              href={recommendedHref}
+              target={recommendedExternal ? "_blank" : undefined}
+              rel={recommendedExternal ? "noreferrer" : undefined}
+            >
+              {detected ? (locale === "zh" ? "下载当前设备版本" : "Download for this device") : copy.downloadDetails} <ArrowIcon />
+            </Link>
             <small>{locale === "zh" ? "当前版本 1.0.36 · 支持全平台同步" : "Current version 1.0.36 · Cross-platform sync"}</small>
           </div>
         </div>
