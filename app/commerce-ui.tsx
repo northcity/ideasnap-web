@@ -84,6 +84,10 @@ const copy = {
   },
 } satisfies Record<Locale, Record<string, string>>;
 
+function CloseIcon() {
+  return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M6 18 18 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;
+}
+
 export function AccountButton({ locale }: { locale: Locale }) {
   const t = copy[locale];
   return (
@@ -111,7 +115,7 @@ export function CommerceLayer({ locale }: { locale: Locale }) {
         <div className="commerce-dialog">
           <div className="commerce-dialog-head">
             <div><h2 id="auth-title">{t.authTitle}</h2><p>{t.authDesc}</p></div>
-            <button className="commerce-close" type="button" data-close-modal="auth-modal" aria-label={t.close}>×</button>
+            <button className="commerce-close" type="button" data-close-modal="auth-modal" aria-label={t.close}><CloseIcon /></button>
           </div>
           <div className="auth-tabs" role="tablist">
             <button className="auth-tab is-active" type="button" data-auth-tab="code">{t.codeTab}</button>
@@ -171,7 +175,7 @@ export function CommerceLayer({ locale }: { locale: Locale }) {
         <div className="commerce-dialog">
           <div className="commerce-dialog-head">
             <div><h2 id="account-title">{t.accountTitle}</h2><p>{t.accountDesc}</p></div>
-            <button className="commerce-close" type="button" data-close-modal="account-modal" aria-label={t.close}>×</button>
+            <button className="commerce-close" type="button" data-close-modal="account-modal" aria-label={t.close}><CloseIcon /></button>
           </div>
           <div className="account-summary" id="account-summary">
             <div className="account-card account-profile">

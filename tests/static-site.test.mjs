@@ -4,17 +4,17 @@ import test from "node:test";
 
 const routes = [
   "features", "workflow", "pricing", "download", "mobile", "watch",
-  "desktop", "integrations", "help", "about", "contact", "privacy", "terms",
+  "desktop", "integrations", "help", "about", "contact", "privacy", "terms", "lifelog",
 ];
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("exports the homepage and all 13 detail routes", async () => {
+test("exports the homepage and all 14 product and detail routes", async () => {
   const pages = await Promise.all([
     read("index.html"),
     ...routes.map((route) => read(`${route}/index.html`)),
   ]);
-  assert.equal(pages.length, 14);
+  assert.equal(pages.length, 15);
   for (const html of pages) {
     assert.match(html, /闪念|IdeaSnap/);
     assert.match(html, /ideasnap-theme/);

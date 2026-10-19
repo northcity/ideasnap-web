@@ -44,10 +44,12 @@
 }
 .account-profile {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   text-align: left;
 }
+.account-profile > div { min-width: 0; flex: 1; }
+.account-name, .account-meta { overflow-wrap: anywhere; }
 
 .commerce-modal[hidden], .commerce-toast[hidden] { display: none; }
 .commerce-modal {
@@ -71,11 +73,13 @@
   box-shadow: 0 28px 90px rgba(16,24,40,.28);
 }
 .commerce-dialog-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:22px; }
+.commerce-dialog-head > div { min-width:0; }
 .commerce-dialog-head h2 { font-size:24px; line-height:1.2; }
 .commerce-dialog-head p { margin-top:7px; color:var(--muted); font-size:14px; }
-.commerce-close { width:34px; height:34px; border:0; border-radius:50%; background:var(--green-soft); color:var(--ink); cursor:pointer; font-size:22px; line-height:1; }
+.commerce-close { display:grid; place-items:center; flex:0 0 44px; width:44px; height:44px; padding:0; border:0; border-radius:50%; background:var(--green-soft); color:var(--ink); cursor:pointer; line-height:1; }
+.commerce-close svg { display:block; width:18px; height:18px; }
 .auth-tabs { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; padding:4px; margin-bottom:20px; border-radius:10px; background:var(--green-soft); }
-.auth-tab { min-height:38px; border:0; border-radius:7px; background:transparent; color:var(--muted); cursor:pointer; font-size:13px; font-weight:700; }
+.auth-tab { min-width:0; min-height:44px; padding:6px 4px; border:0; border-radius:7px; background:transparent; color:var(--muted); cursor:pointer; font-size:13px; font-weight:700; line-height:1.45; }
 .auth-tab.is-active { color:var(--ink); background:#fff; box-shadow:0 3px 9px rgba(16,24,40,.08); }
 .auth-method-pills { display:flex; gap:8px; margin:-6px 0 16px; }
 .auth-method-pills[hidden] { display:none; }
@@ -88,10 +92,10 @@
 .auth-link:hover { text-decoration:underline; }
 .auth-reset-desc { margin:0; font-size:13px; }
 .commerce-field { display:grid; gap:7px; color:var(--ink); font-size:13px; font-weight:700; }
-.commerce-field input { min-height:46px; width:100%; padding:0 13px; border:1px solid var(--line); border-radius:9px; outline:none; color:var(--ink); font:inherit; }
+.commerce-field input { min-width:0; min-height:46px; width:100%; padding:0 13px; border:1px solid var(--line); border-radius:9px; outline:none; color:var(--ink); font:inherit; }
 .commerce-field input:focus { border-color:var(--green); box-shadow:0 0 0 3px rgba(39,201,93,.13); }
-.code-row { display:grid; grid-template-columns:1fr auto; gap:9px; }
-.send-code { min-height:46px; padding:0 12px; }
+.code-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:9px; }
+.send-code { min-height:46px; padding:0 12px; white-space:nowrap; }
 .auth-note { margin:2px 0 0; color:var(--muted); font-size:12px; line-height:1.55; }
 .account-summary { display:grid; gap:15px; }
 .account-card { padding:16px; border:1px solid var(--line); border-radius:12px; background:linear-gradient(135deg,#f8fffb,#f7fbff); }
@@ -152,6 +156,11 @@ html[data-theme="dark"] {
   .membership-chip.free {
     background: rgba(255, 255, 255, 0.08);
     color: var(--muted);
+  }
+
+  .membership-chip:not(.free) {
+    background: var(--green-soft);
+    color: var(--green-dark);
   }
 
   .commerce-toast {

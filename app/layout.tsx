@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./commerce.css";
+import "./home-polish.css";
+import "./shell-polish.css";
+import "./detail-polish.css";
+import "./lifelog.css";
 import Script from "next/script";
 import SiteShell from "./site-shell";
 import { SiteProvider } from "./site-context";
@@ -24,7 +28,7 @@ export const metadata: Metadata = {
       "语音、图片和零散想法自动转写、总结并提取待办，全平台持续同步。",
     images: [
       {
-        url: "/assets/showcase/platform-hero.webp",
+        url: "/assets/showcase/platform-hero-v2.webp",
         width: 1536,
         height: 1024,
         alt: "闪念 AI 语音笔记全平台界面",
@@ -35,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "闪念 AI 语音笔记",
     description: "想到什么，直接说。AI 自动整理成笔记和待办。",
-    images: ["/assets/showcase/platform-hero.webp"],
+    images: ["/assets/showcase/platform-hero-v2.webp"],
   },
   icons: {
     icon: "https://ideasnap.xyz/assets/icons/Appicon.png",

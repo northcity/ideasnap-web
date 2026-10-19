@@ -344,9 +344,8 @@ nav a:focus-visible {
 .hero-image {
   position: relative;
   z-index: 1;
-  width: 135%;
-  max-width: none;
-  transform: translateX(1%) scale(1.08);
+  width: 100%;
+  max-width: 100%;
   filter: drop-shadow(0 24px 22px rgba(23, 61, 42, 0.14));
 }
 
@@ -826,9 +825,10 @@ nav a:focus-visible {
 }
 
 .desktop-device-wrap img {
+  width: 100%;
   height: calc(100% - 30px);
   margin-top: 30px;
-  transform: scale(1.08);
+  object-fit: contain;
 }
 
 .floating-status {
