@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type AnchorHTMLAttributes } from "react";
 import { homeCopy } from "./content";
 import CommercePricing from "./commerce-pricing";
 import LifeLogShowcase from "./lifelog-showcase";
+import { artwork } from "./artwork";
 import { useSite } from "./site-context";
 import { resolveDownloadTarget, type DownloadTarget } from "./device-download";
 
@@ -83,6 +84,7 @@ const examples = {
 export default function Home() {
   const { locale } = useSite();
   const copy = homeCopy[locale];
+  const visuals = artwork[locale];
   const [downloadTarget, setDownloadTarget] = useState<DownloadTarget | null>(null);
   const [activeExample, setActiveExample] = useState(0);
   const exampleTabs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -144,7 +146,7 @@ export default function Home() {
 
           <Link className="hero-visual" href="/workflow" aria-label={locale === "zh" ? "查看闪念完整工作流" : "View the complete IdeaSnap workflow"}>
             <div className="hero-image-wrap">
-              <img className="hero-image" src="/assets/showcase/platform-hero-v2.webp" alt={locale === "zh" ? "闪念在 Apple Watch、手机与电脑上的产品示意图" : "IdeaSnap product illustration on Apple Watch, mobile, and desktop"} width="1536" height="1024" fetchPriority="high" />
+              <img className="hero-image" src={visuals.platformHero} alt={locale === "zh" ? "闪念在 Apple Watch、手机与电脑上的产品示意图" : "IdeaSnap product illustration on Apple Watch, mobile, and desktop"} width="1536" height="1024" fetchPriority="high" />
             </div>
           </Link>
           <div className="hero-platforms"><span>{locale === "zh" ? "每台设备，都接得住灵感" : "Your thought, on every device"}</span><div>Apple Watch <i /> iOS <i /> Android <i /> macOS <i /> Windows <i /> Linux</div></div>
@@ -208,8 +210,8 @@ export default function Home() {
           <div className="workflow-grid">
             <Link className="workflow-visual mobile-visual" href="/mobile">
               <div className="device-story"><span className="section-kicker">{copy.phoneWatch}</span><h3>{locale === "zh" ? "灵感来了，随时说。" : "A thought arrives. You're ready."}</h3><p>{locale === "zh" ? "走路、通勤或睡前，抬腕或打开手机，就能把当下的想法留住。" : "On a walk, on your commute, or before bed. Raise your wrist or open your phone and capture the moment."}</p><span className="card-link">{locale === "zh" ? "了解移动端" : "Explore mobile"} <ArrowIcon /></span></div>
-              <div className="mobile-device-wrap"><img src="/assets/showcase/mobile-device-ios-v2.webp" alt={locale === "zh" ? "闪念 iOS 端笔记产品示意图" : "IdeaSnap iOS notes product illustration"} width="1122" height="1402" loading="lazy" /></div>
-              <div className="watch-companion"><img src="/assets/showcase/watch-device-v2.webp" alt={locale === "zh" ? "闪念手表录音示意图" : "IdeaSnap Watch recording illustration"} width="1536" height="1024" loading="lazy" /></div>
+              <div className="mobile-device-wrap"><img src={visuals.mobileIOS} alt={locale === "zh" ? "闪念 iOS 端笔记产品示意图" : "IdeaSnap iOS notes product illustration"} width="1122" height="1402" loading="lazy" /></div>
+              <div className="watch-companion"><img src={visuals.watchRecorder} alt={locale === "zh" ? "闪念手表录音示意图" : "IdeaSnap Watch recording illustration"} width="1536" height="1024" loading="lazy" /></div>
             </Link>
 
             <div className="workflow-steps">
@@ -225,7 +227,7 @@ export default function Home() {
 
             <Link className="workflow-visual desktop-visual" href="/desktop">
               <div className="device-story"><span className="section-kicker">Windows / macOS / Linux</span><h3>{locale === "zh" ? "回到电脑，接着展开。" : "Back at your desk. Keep going."}</h3><p>{locale === "zh" ? "在更大的屏幕上编辑、搜索与归档。零碎的输入，也能成为长期的积累。" : "Edit, search, and organize on a bigger screen. Let the small fragments grow into lasting knowledge."}</p><span className="card-link">{locale === "zh" ? "了解桌面端" : "Explore desktop"} <ArrowIcon /></span></div>
-              <div className="desktop-device-wrap"><img src="/assets/showcase/windows-illustration-v2.webp" alt={locale === "zh" ? "闪念桌面端笔记整理产品示意图" : "IdeaSnap desktop notes product illustration"} width="1536" height="1024" loading="lazy" /></div>
+              <div className="desktop-device-wrap"><img src={visuals.desktopWindows} alt={locale === "zh" ? "闪念桌面端笔记整理产品示意图" : "IdeaSnap desktop notes product illustration"} width="1536" height="1024" loading="lazy" /></div>
             </Link>
           </div>
         </div>

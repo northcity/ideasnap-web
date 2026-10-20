@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { artwork } from "./artwork";
 import { useSite } from "./site-context";
 import { lifelogCopy } from "./lifelog-content";
 import { LifeIcon } from "./lifelog-icons";
@@ -21,7 +22,7 @@ export default function LifeLogShowcase() {
             <small className="life-promo-note">{copy.promoNote}</small>
           </div>
           <Link className="life-promo-art" href="/lifelog/" aria-label={copy.more}>
-            <img src="/assets/lifelog/watch-life-recorder.webp" alt={copy.posterAlt} width="853" height="1844" loading="lazy" />
+            <img src={artwork[locale].lifeRecorder} alt={copy.posterAlt} width="853" height="1844" loading="lazy" />
           </Link>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { artwork } from "./artwork";
 import { externalLinks } from "./content";
 import { lifelogCopy } from "./lifelog-content";
 import { LifeIcon, type LifeIconName } from "./lifelog-icons";
@@ -22,7 +23,7 @@ export default function LifeLogPage() {
             <dl className="life-facts">{copy.facts.map(([value,label]) => <div key={value}><dt>{value}</dt><dd>{label}</dd></div>)}</dl>
             <p className="life-duration-note">{copy.durationNote}</p>
           </div>
-          <figure className="life-hero-art"><img src="/assets/lifelog/watch-life-recorder.webp" alt={copy.posterAlt} width="853" height="1844" fetchPriority="high" /></figure>
+          <figure className="life-hero-art"><img src={artwork[locale].lifeRecorder} alt={copy.posterAlt} width="853" height="1844" fetchPriority="high" /></figure>
         </div>
       </section>
 
