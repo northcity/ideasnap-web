@@ -1,21 +1,76 @@
 <!doctype html>
-<html>
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Connecting to IdeaSnap…</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: #f5f6f8;
+      color: #333;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", sans-serif;
+    }
+    p { margin: 0; padding: 0 24px; text-align: center; font-size: 15px; line-height: 1.6; }
+    a {
+      display: none;
+      padding: 11px 22px;
+      border-radius: 999px;
+      background: #111;
+      color: #fff;
+      font-size: 14px;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
+  <p id="status">正在连接闪念…</p>
+  <a id="open" href="#">打开闪念</a>
   <script>
-    const p = new URLSearchParams(location.search);
-    const code = p.get("code");
-    const state = p.get("state");
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var code = params.get("code");
+      var state = params.get("state") || "";
+      var error = params.get("error");
+      var status = document.getElementById("status");
+      var open = document.getElementById("open");
+      var ua = navigator.userAgent || "";
 
-    if (code) {
-      location.href =
-        `comchenxijiyisuipian://notion-callback?code=${code}&state=${state || ""}`;
-    } else {
-      document.body.innerText = "授权失败";
-    }
+      // 三端共用同一个 Notion 回调地址：
+      // - iOS（ASWebAuthenticationSession）回到 comchenxijiyisuipian://
+      // - Android 与桌面端回到 shannian://（桌面端把该 scheme 注册为 Electron 协议）
+      // iPadOS 13+ 默认使用 Macintosh 桌面 UA，所以用 Mobile/ 区分 iPad 与 macOS。
+      var isAndroid = /Android/i.test(ua);
+      // iPadOS 13+ 可伪装成 Macintosh；MacIntel + 多点触控是区分 iPad 与 Mac 的可靠信号
+      var isIPadOS = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+      var isIOS =
+        /iPhone|iPad|iPod/i.test(ua) ||
+        isIPadOS ||
+        (/Macintosh/i.test(ua) && /Mobile\//i.test(ua));
+      var scheme = isIOS && !isAndroid ? "comchenxijiyisuipian" : "shannian";
+
+      if (!code) {
+        status.textContent = error ? "授权失败：" + error : "授权失败，请返回闪念重试。";
+        return;
+      }
+
+      var target =
+        scheme + "://notion-callback?code=" + encodeURIComponent(code) +
+        "&state=" + encodeURIComponent(state);
+      // Safari 等浏览器可能拦截脚本触发的自定义协议，同时提供一个可点击入口
+      open.href = target;
+      open.style.display = "inline-block";
+      location.href = target;
+      setTimeout(function () {
+        status.textContent = "未自动打开闪念？请点击下方按钮返回应用。";
+      }, 2500);
+    })();
   </script>
 </body>
 </html>
