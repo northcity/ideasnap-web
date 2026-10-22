@@ -42,8 +42,8 @@ test("keeps the Notion OAuth callback and custom-scheme return", async () => {
   const callback = await read("notion/callback/index.html");
   assert.match(callback, /notion-callback/);
   assert.match(callback, /comchenxijiyisuipian:\/\//);
-  assert.match(callback, /p\.get\("code"\)/);
-  assert.match(callback, /p\.get\("state"\)/);
+  assert.match(callback, /params\.get\("code"\)/);
+  assert.match(callback, /params\.get\("state"\)/);
 });
 
 test("keeps GitHub Pages domain and no-Jekyll marker", async () => {

@@ -51,7 +51,7 @@ export const externalLinks = {
   appStore:
     "https://apps.apple.com/cn/app/%E9%97%AA%E5%BF%B5-ai%E8%AF%AD%E9%9F%B3%E7%AC%94%E8%AE%B0/id1397149726",
   android:
-    "https://dl.northcity.top/1.0.40/%E9%97%AA%E5%BF%B5-1.0.40-44.apk",
+    "https://dl.northcity.top/1.0.43/%E9%97%AA%E5%BF%B5-1.0.43-47.apk",
   windowsSetup:
     "https://dl.northcity.top/1.0.36/%E9%97%AA%E5%BF%B5%20Setup%201.0.36.exe",
   windowsPortable:
