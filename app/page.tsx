@@ -279,7 +279,7 @@ export default function Home() {
             >
               {detected ? (locale === "zh" ? "下载当前设备版本" : "Download for this device") : copy.downloadDetails} <ArrowIcon />
             </Link>
-            <small>{locale === "zh" ? "当前版本 1.0.36 · 支持全平台同步" : "Current version 1.0.36 · Cross-platform sync"}</small>
+            <small>{locale === "zh" ? "当前版本 1.0.37 · 支持全平台同步" : "Current version 1.0.37 · Cross-platform sync"}</small>
           </div>
         </div>
       </section>
