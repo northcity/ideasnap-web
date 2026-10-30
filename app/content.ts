@@ -53,17 +53,17 @@ export const externalLinks = {
   android:
     "https://dl.northcity.top/1.0.43/%E9%97%AA%E5%BF%B5-1.0.43-47.apk",
   windowsSetup:
-    "https://dl.northcity.top/1.0.37/%E9%97%AA%E5%BF%B5%20Setup%201.0.37.exe",
+    "https://dl.northcity.top/1.0.39/%E9%97%AA%E5%BF%B5%20Setup%201.0.39.exe",
   windowsPortable:
-    "https://dl.northcity.top/1.0.37/%E9%97%AA%E5%BF%B5%201.0.37.exe",
+    "https://dl.northcity.top/1.0.39/%E9%97%AA%E5%BF%B5%201.0.39.exe",
   macos:
-    "https://dl.northcity.top/1.0.37/%E9%97%AA%E5%BF%B5-1.0.37-stapled.dmg",
+    "https://dl.northcity.top/1.0.39/%E9%97%AA%E5%BF%B5-1.0.39-stapled.dmg",
   macosArm64:
-    "https://dl.northcity.top/1.0.37/%E9%97%AA%E5%BF%B5-1.0.37-arm64-stapled.dmg",
+    "https://dl.northcity.top/1.0.39/%E9%97%AA%E5%BF%B5-1.0.39-arm64-stapled.dmg",
   linuxDeb:
-    "https://dl.northcity.top/1.0.37/shannian-desktop_1.0.37_amd64.deb",
+    "https://dl.northcity.top/1.0.39/shannian-desktop_1.0.39_amd64.deb",
   linuxAppImage:
-    "https://dl.northcity.top/1.0.37/%E9%97%AA%E5%BF%B5-1.0.37.AppImage",
+    "https://dl.northcity.top/1.0.39/%E9%97%AA%E5%BF%B5-1.0.39.AppImage",
   checkout: "/pricing#pricing-plans",
   privacy: "https://www.northcity.top/ideasnap-privacy-policy/",
   terms: "https://www.northcity.top/ideasnap-subscription-agreement/",
@@ -492,13 +492,13 @@ const zhPages: Record<PageKey, DetailCopy> = {
   download: {
     group: "资源 · 下载与安装",
     title: "在手表、手机和电脑上继续同一条笔记",
-    lead: "当前版本 1.0.37。页面会自动识别你的设备并推荐最合适的安装包，也可以在下方手动选择。",
+    lead: "当前版本 1.0.39。页面会自动识别你的设备并推荐最合适的安装包，也可以在下方手动选择。",
     heroImage: artwork.zh.platformOverview,
     heroAlt: "闪念支持的全平台设备产品示意图",
     primary: { label: "iOS / Apple Watch", href: externalLinks.appStore, external: true },
     secondary: { label: "Android APK", href: externalLinks.android, external: true },
     highlights: [
-      { value: "1.0.37", label: "当前版本" },
+      { value: "1.0.39", label: "当前版本" },
       { value: "6 类", label: "支持平台" },
       { value: "同账号", label: "会员与笔记同步" },
     ],
@@ -1084,13 +1084,13 @@ const enPages: Record<PageKey, DetailCopy> = {
   download: {
     group: "Resources · Download",
     title: "Keep the same note moving across watch, phone, and desktop",
-    lead: "Current version: 1.0.37. We detect your device and recommend the right package; you can also choose manually below.",
+    lead: "Current version: 1.0.39. We detect your device and recommend the right package; you can also choose manually below.",
     heroImage: artwork.en.platformOverview,
     heroAlt: "Platforms supported by IdeaSnap — product illustration",
     primary: { label: "iOS / Apple Watch", href: externalLinks.appStore, external: true },
     secondary: { label: "Android APK", href: externalLinks.android, external: true },
     highlights: [
-      { value: "1.0.37", label: "Current version" },
+      { value: "1.0.39", label: "Current version" },
       { value: "6", label: "Platform families" },
       { value: "One account", label: "Notes and membership sync" },
     ],
